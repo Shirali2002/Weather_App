@@ -47,4 +47,5 @@ label_1.pack()
 label_2 = Label(window, font=font_2)
 label_2.pack()
 
+
 window.mainloop()
