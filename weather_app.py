@@ -24,7 +24,7 @@ class App:
         self.window.mainloop()
 
     def gui_components(self):
-        self.label = Label(self.window, font='poppins 35 bold', bg='#1b1c1b', fg='yellow', text='Welcome to Weather app')
+        self.label = Label(self.window, font='poppins 35 bold', bg='#1b1c1b', fg='yellow', text='Weather app')
         self.label.place(relx=0, rely=0, relheight=0.12, relwidth=1)
 
         self.entry_city = Entry(self.window, justify=CENTER, font=self.font_1)
