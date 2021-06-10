@@ -2,6 +2,7 @@ from tkinter import *
 import requests
 import time
 from datetime import datetime
+from tkinter import messagebox
 
 
 class App:
@@ -43,48 +44,50 @@ class App:
 
         self.label_4 = Label(self.window, font=self.font_3, bg='#2b2e2c', fg='white')
         self.label_4.place(relx=0.45, rely=0.32)
-
         self.label_5 = Label(self.window, font=self.font_1, bg='#2b2e2c', fg='white')
         self.label_5.place(relx=0.46, rely=0.42)
 
 
     def get_weather(self, window):
-        city = self.entry_city.get()
-        api = f"http://api.openweathermap.org/data/2.5/weather?q={city}&appid=a4268b8e63c13c18c3dfad2472682603"
-        json_data = requests.get(api).json()
-        condition = json_data['weather'][0]['main']
-        condition_description = json_data['weather'][0]['description']
-        icon_address = json_data['weather'][0]['icon']
-        temp = int(json_data['main']['temp'] - 273.15)
-        min_temp = int(json_data['main']['temp_min'] - 273.15)
-        max_temp = int(json_data['main']['temp_max'] - 273.15)
-        pressure = json_data['main']['pressure']
-        humidity = json_data['main']['humidity']
-        wind = json_data['wind']['speed']
-        sunrise = time.strftime('%I:%M:%S', time.gmtime(json_data['sys']['sunrise'] - 21600))
-        sunset = time.strftime('%I:%M:%S', time.gmtime(json_data['sys']['sunset'] - 21600))
-        today = datetime.date(datetime.now())
+        try:
+            city = self.entry_city.get()
+            api = f"http://api.openweathermap.org/data/2.5/weather?q={city}&appid=a4268b8e63c13c18c3dfad2472682603"
+            json_data = requests.get(api).json()
+            condition = json_data['weather'][0]['main']
+            condition_description = json_data['weather'][0]['description']
+            icon_address = json_data['weather'][0]['icon']
+            temp = int(json_data['main']['temp'] - 273.15)
+            min_temp = int(json_data['main']['temp_min'] - 273.15)
+            max_temp = int(json_data['main']['temp_max'] - 273.15)
+            pressure = json_data['main']['pressure']
+            humidity = json_data['main']['humidity']
+            wind = json_data['wind']['speed']
+            sunrise = time.strftime('%I:%M:%S', time.gmtime(json_data['sys']['sunrise'] - 21600))
+            sunset = time.strftime('%I:%M:%S', time.gmtime(json_data['sys']['sunset'] - 21600))
+            today = datetime.date(datetime.now())
 
-        label_hour_info = f'Today: {str(today)}\n' \
-                          f'Sunrise: {str(sunrise)}\n' \
-                          f'Sunset: {str(sunset)}'
+            label_hour_info = f'Today: {str(today)}\n' \
+                              f'Sunrise: {str(sunrise)}\n' \
+                              f'Sunset: {str(sunset)}'
 
-        label_temp_info = f'Temperature: {str(temp)}°C\n' \
-                          f'Max Temp: {str(max_temp)}°C\n' \
-                          f'Min Temp: {str(min_temp)}°C'
+            label_temp_info = f'Temperature: {str(temp)}°C\n' \
+                              f'Max Temp: {str(max_temp)}°C\n' \
+                              f'Min Temp: {str(min_temp)}°C'
 
-        label_addition_info = f'Pressure: {str(pressure)}\n' \
-                              f'Wind speed: {str(wind)}\n' \
-                              f'Humidity: {str(humidity)}'
+            label_addition_info = f'Pressure: {str(pressure)}\n' \
+                                  f'Wind speed: {str(wind)}\n' \
+                                  f'Humidity: {str(humidity)}'
 
 
 
-        self.label_1.config(text=label_hour_info)
-        self.label_2.config(text=label_temp_info)
-        self.label_3.config(text=label_addition_info)
-        self.label_4.config(text=condition)
-        self.label_5.config(text=condition_description)
+            self.label_1.config(text=label_hour_info)
+            self.label_2.config(text=label_temp_info)
+            self.label_3.config(text=label_addition_info)
+            self.label_4.config(text=condition)
+            self.label_5.config(text=condition_description)
 
+        except KeyError as err:
+            messagebox.showwarning('warning', 'The city name is not exist.')
 
 if __name__ == '__main__':
     app = App()
